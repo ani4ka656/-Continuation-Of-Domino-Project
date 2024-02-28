@@ -213,7 +213,17 @@ void Game::render() {
 
 			string firstPictureTileId = player1.getTiles().at(i).getPictureid1();
 			string secondPictureTileId = player1.getTiles().at(i).getPictureid2();
-			TextureManager::Instance()->drawTile(i, firstPictureTileId, secondPictureTileId, x, y, player1.getTiles().at(i), tileWidth, tileHeight, renderer);
+
+			if (player1.inTurn() == 0) {
+				SDL_Rect fillRect = { x, y, tileWidth, tileHeight / 2 };
+				SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+				SDL_RenderFillRect(renderer, &fillRect);
+				SDL_Rect fillRect2 = { x, y + tileWidth, tileWidth, tileHeight / 2 };
+				SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+				SDL_RenderFillRect(renderer, &fillRect2);
+			}
+			else 
+				TextureManager::Instance()->drawTile(i, firstPictureTileId, secondPictureTileId, x, y, player1.getTiles().at(i), tileWidth, tileHeight, renderer);
 			multiplyBy1++;
 		}
 
@@ -227,7 +237,18 @@ void Game::render() {
 			string firstPictureTileId = player2.getTiles().at(i).getPictureid1();
 			string secondPictureTileId = player2.getTiles().at(i).getPictureid2();
 
-			TextureManager::Instance()->drawTile(i, firstPictureTileId, secondPictureTileId, x, y, player2.getTiles().at(i), 45, 90, renderer);
+
+			if (player2.inTurn() == 0) {
+				SDL_Rect fillRect = { x, y, tileWidth, tileHeight/2 };
+				SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+				SDL_RenderFillRect(renderer, &fillRect);
+				SDL_Rect fillRect2 = { x, y + tileWidth, tileWidth, tileHeight / 2 };
+				SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+				SDL_RenderFillRect(renderer, &fillRect2);
+			}
+			
+			else 
+				TextureManager::Instance()->drawTile(i, firstPictureTileId, secondPictureTileId, x, y, player2.getTiles().at(i), 45, 90, renderer);
 			multiplyBy2++;
 		}
 
@@ -239,7 +260,7 @@ void Game::render() {
 
 			int x = table.getTiles().at(i).getPosition().first;
 			int y = table.getTiles().at(i).getPosition().second;
-
+			
 			TextureManager::Instance()->drawTile(1, pic1Id, pic2Id, x, y, table.getTiles().at(i), 45, 90, renderer, SDL_FLIP_NONE, table.getTiles().at(i).angle);
 		}
 	}
@@ -307,6 +328,7 @@ void Game::handleEvents() {
 					cout << (isClickedBeside2Tile(mouseDownX, mouseDownY, table.getTiles().at(i)) ? "Clicked Baseide2 : yes" : "Clicked Baseide2 : Not") << endl;
 					cout << (isClickedBelowTile(mouseDownX, mouseDownY, table.getTiles().at(i)) ? "Clicked Below : yes" : "Clicked Below : Not") << endl;
 					cout << (isClickedNext2ToTile(mouseDownX, mouseDownY, table.getTiles().at(i)) ? "Clicked next2: yes" : "Clicked Next2: Not") << endl;
+					cout << i << endl << endl;
 				}
 
 				int last = (int)table.getCount() - 1;
@@ -315,7 +337,7 @@ void Game::handleEvents() {
 				cout << "cntr:" << last << endl;
 
 				cout << "Player in turn: 1" << endl;
-				
+
 
 				//in here we need to check if the tile we chose and if after clicking with the right button, we can put it on all sides of the tile that is the first
 				//we only need to check if it can be placed on the front and the back, accoding to the assignment
@@ -323,200 +345,200 @@ void Game::handleEvents() {
 				// above, below, next, next2, beside and beside 2 change for  each tile
 				//if (player2.inTurn() == 1) {
 				float anglebegin = table.getTiles().at(0).angle;
-				cout << "angle: "  << anglebegin << endl;
-				//float angleLast = table.getTiles().at(last).angle;
-				//if (player1.inTurn() == 1) {
-				//int realXabove = 0;
-				//int realYabove = 0;
-				//int realXbeside = 0;
-				//int realYbeside = 0;
-				//int realXbeside2 = 0;
-				//int realYbeside2 = 0;
-				//int realXnext = 0;
-				//int realYnext = 0;
-				//int realXnext2 = 0;
-				//int realYnext2 = 0;
-				//int realXbelow = 0;
-				//int realYbelow = 0;
-
-				//cout << "Player in turn: 1" << endl;
-
-				//if (anglebegin == 0 || anglebegin == 180) {
-				//	realXabove = msx;
-				//	realYabove = msy;
-				//	realXbeside = msx;
-				//	realYbeside = msy;
-				//	realXbeside2 = msx;
-				//	realYbeside2 = msy;
-				//	realXnext = msx;
-				//	realYnext = msy;
-				//	realXnext2 = msx;
-				//	realYnext2 = msy;
-				//	realXbelow = msx;
-				//	realYbelow = msy;
-				//}/*if (anglebegin == -90) {
-				//	realXabove = msx + 90;
-				//	realYabove = msy - 45;
-				//	realXbeside = msx + 45;
-				//	realYbeside = msy - 45;
-				//	realXbeside2 = msx;
-				//	realYbeside2 = msy;
-				//	realXnext = msx + 45;
-				//	realYnext = msy - 90;
-				//	realXnext2 = msx - 45;
-				//	realYnext2 = msy - 45;
-				//	realXbelow = msx;
-				//	realYbelow = msy + 45;
-				//}*/ else if (anglebegin == 90 || anglebegin == 270) {
-				//	realXabove = msx - 90;
-				//	realYabove = msy + 45;
-				//	realXbeside = msx - 45;
-				//	realYbeside = msy + 90;
-				//	realXbeside2 = msx - 45;
-				//	realYbeside2 = msy + 45;
-				//	realXnext = msx - 90;
-				//	realYnext = msy - 45;
-				//	realXnext2 = msx - 45;
-				//	realYnext2 = msy - 90;
-				//	realXbelow = msx + 45;
-				//	realYbelow = msy - 90;
-				//}if (anglebegin == -270 || anglebegin == -90) {
-				//	realXabove = msx + 135;
-				//	realYabove = msy;
-				//	realXbeside = msx + 90;
-				//	realYbeside = msy - 45;
-				//	realXbeside2 = msx + 45;
-				//	realYbeside2 = msy - 90;
-				//	realXnext = msx + 45;
-				//	realYnext = msy + 90;
-				//	realXnext2 = msx;
-				//	realYnext2 = msy + 45;
-				//	realXbelow = msx - 45;
-				//	realYbelow = msy - 90;
-				//}
+				float anglelast = table.getTiles().at(last).angle;
+				cout << "angleBegin: " << anglebegin << endl;
+				cout << "angleLast: " << anglelast << endl;
+				
 				//cout << "relaX: " << realXabove << "relaY: " << realYabove << endl;
 				//cout << "msx: " << msx << "msy: " << msy << endl;
 				//in here we need to check if the tile we chose and if after clicking with the right button, we can put it on all sides of the tile that is the first
 				//we only need to check if it can be placed on the front and the back, accoding to the assignment
 				//but it only works for now for tiles placed above or below the first tile, because after every rotatiton the sides:
 				// above, below, next, next2, beside and beside 2 change for  each tile
-				if (isClickedAboveTile(msx, msy, table.getTiles().at(0)))
-				{
-					//cout << "Index:" << selectedTile << endl;
-					moveTileToTableAbove(player1, selectedTile, 2, 0, 0, -90);
-				}
-				else if (isClickedBelowTile(msx, msy, table.getTiles().at(0))) {
+				if (player1.inTurn() == 1) {
+					if (anglebegin == 0 || anglebegin == 180 /*|| anglelast == 0 || anglelast == 180 */) {
+						if (isClickedAboveTile(msx, msy, table.getTiles().at(0)))
+						{
+							//cout << "Index:" << selectedTile << endl;
+							moveTileToTableAbove(player1, selectedTile, 2, 0, 0, -90);
+						}
+						/*else if (isClickedBelowTile(msx, msy, table.getTiles().at(0))) {
 
-					moveTileToTableBelow(player1, selectedTile, 2, 0, 0, 90);
-				}
-				else if (isClickedBesideTile(msx, msy, table.getTiles().at(0))) {
+							moveTileToTableBelow(player1, selectedTile, 2, 0, 0, 90);
+						}*/
+						else if (isClickedBesideTile(msx, msy, table.getTiles().at(0))) {
 
-					moveTileToTableAbove(player1, selectedTile, 1, 90.0f, -90, 0);
-				}
-				else if (isClickedBeside2Tile(msx, msy, table.getTiles().at(0))) {
+							moveTileToTableAbove(player1, selectedTile, 1, 90.0f, -90, 0);
+						}
+						/*else if (isClickedBeside2Tile(msx, msy, table.getTiles().at(0))) {
 
-					moveTileToTableBelow(player1, selectedTile, 3, 90.0f, -90, +45);
-				}
-				else if (isClickedNext2ToTile(msx, msy, table.getTiles().at(0))) {
+							moveTileToTableBelow(player1, selectedTile, 3, -90.0f, -90, +45);
+						}*/
+						else if (isClickedNextToTile(msx, msy, table.getTiles().at(0))) {
 
-					moveTileToTableBelow(player1, selectedTile, 2, -270.0f, 45, 45);
-				}
-				else if (isClickedNextToTile(msx, msy, table.getTiles().at(0))) {
+							moveTileToTableAbove(player1, selectedTile, 3, -90.0f, 45, 0);
+						}
+						/*else if (isClickedNext2ToTile(msx, msy, table.getTiles().at(0))) {
 
-					moveTileToTableAbove(player1, selectedTile, 3, -270.0f, 45, 0);
-				}
-				//if the table has more than one tile we need to check if we can place at the bottom and it tree sides
-				if (last >= 1) {
-					/*if (isClickedAboveTile(msx, msy, table.getTiles().at(last)))
-					{
-						cout << "Index:" << selectedTile << endl;
-						moveTileToTableAbove(player1, selectedTile, 2, 0, 0, -90);
+							moveTileToTableBelow(player1, selectedTile, 2, -270.0f, 45, 45);
+						}*/
+
 					}
-					else */if (isClickedBelowTile(msx, msy, table.getTiles().at(last))) {
+					///////////////
+						//if (last > 0) {
+							//else 
+					else if (anglebegin != 0 && anglebegin != 180) {
+						if (isClickedAboveTile(msx, msy, table.getTiles().at(0)))
+						{
+							moveTileToTableAbove(player1, selectedTile, 2, 0, 0, -90);
+						}
+						else if (isClickedBelowTile(msx, msy, table.getTiles().at(0))) {
 
-						moveTileToTableBelow(player1, selectedTile, 2, 0, 0, 90);
+							moveTileToTableAbove(player1, selectedTile, 2, 0, 0, +45);
+						}
+						else if (isClickedBesideTile(msx, msy, table.getTiles().at(0))) {
+
+							moveTileToTableAbove(player1, selectedTile, 1, 90.0f, -90, 0);
+						}
+						else if (isClickedNextToTile(msx, msy, table.getTiles().at(0))) {
+
+							moveTileToTableAbove(player1, selectedTile, 3, -90.0f, 90, 0);
+						}
 					}
-					/*else if (isClickedBesideTile(msx, msy, table.getTiles().at(last))) {
+					//if(last >= 1){
+						//else
+					if (anglelast == 0 || anglelast == 180) {
+						if (isClickedBeside2Tile(msx, msy, table.getTiles().at(last))) {
 
-						moveTileToTableAbove(player1, selectedTile, 1, 90.0f, -90, 0);
-					}*/
-					else if (isClickedBeside2Tile(msx, msy, table.getTiles().at(last))) {
+							moveTileToTableBelow(player1, selectedTile, 3, -90.0f, 0, +45);
+						}
+						else if (isClickedNext2ToTile(msx, msy, table.getTiles().at(last))) {
 
-						moveTileToTableBelow(player1, selectedTile, 3, 90.0f, -90, +45);
+							moveTileToTableBelow(player1, selectedTile, 2, -270.0f, 45, 45);
+						}
+						else if (isClickedBelowTile(msx, msy, table.getTiles().at(last))) {
+
+							moveTileToTableBelow(player1, selectedTile, 3,/* 0*/0, 0, 90);
+						}
 					}
-					else if (isClickedNext2ToTile(msx, msy, table.getTiles().at(last))) {
+					else if (anglelast != 0 && anglelast != 180) {
+						if (isClickedAboveTile(msx, msy, table.getTiles().at(last)))
+						{
+							moveTileToTableBelow(player1, selectedTile, 2, 0, 0, -90);
+						}
+						else if (isClickedBelowTile(msx, msy, table.getTiles().at(last))) {
 
-						moveTileToTableBelow(player1, selectedTile, 2, -270.0f, 45, 45);
+							moveTileToTableBelow(player1, selectedTile, 2, 0, 0, +45);
+						}
+						else if (isClickedBesideTile(msx, msy, table.getTiles().at(last))) {
+
+							moveTileToTableBelow(player1, selectedTile, 1, 90.0f, -90, 0);
+						}
+						else if (isClickedNextToTile(msx, msy, table.getTiles().at(last))) {
+
+							moveTileToTableBelow(player1, selectedTile, 3, 90.0f, 90, 0);
+						}
 					}
-					/*else if (isClickedNextToTile(msx, msy, table.getTiles().at(last))) {
 
-						moveTileToTableAbove(player1, selectedTile, 3, -90.0f, 45, 0);
-					}*/
+
+
+					//if the table has more than one tile we need to check if we can place at the bottom and it tree sides
+
+
+					//this here is for when we resolve the problems
+					//we just change the turn and it is now the second player turn
+					player1.changeTurnStatus(0);
+					player2.changeTurnStatus(1);
 				}
+				else if (player2.inTurn() == 1) {
+					if (anglebegin == 0 || anglebegin == 180 /*|| anglelast == 0 || anglelast == 180 */) {
+						if (isClickedAboveTile(msx, msy, table.getTiles().at(0)))
+						{
+							//cout << "Index:" << selectedTile << endl;
+							moveTileToTableAbove(player2, selectedTile, 2, 0, 0, -90);
+						}
+						/*else if (isClickedBelowTile(msx, msy, table.getTiles().at(0))) {
 
+							moveTileToTableBelow(player1, selectedTile, 2, 0, 0, 90);
+						}*/
+						else if (isClickedBesideTile(msx, msy, table.getTiles().at(0))) {
 
-				//this here is for when we resolve the problems
-				//we just change the turn and it is now the second player turn
-					//player1.changeTurnStatus(0);
-					//player2.changeTurnStatus(1);
-				//}
-				//else if (player2.inTurn() == 1) {
-				//	cout << "Player in turn: 1" << endl;
-				//	if (isClickedAboveTile(msx, msy, table.getTiles().at(0)))
-				//	{
-				//		//cout << "Index:" << selectedTile << endl;
-				//		moveTileToTableAbove(player2, selectedTile, 2, 0, 0, -90);
-				//	}
-				//	else if (isClickedBelowTile(msx, msy, table.getTiles().at(0))) {
+							moveTileToTableAbove(player2, selectedTile, 1, 90.0f, -90, 0);
+						}
+						/*else if (isClickedBeside2Tile(msx, msy, table.getTiles().at(0))) {
 
-				//		moveTileToTableBelow(player2, selectedTile, 2, 0, 0, 90);
-				//	}
-				//	else if (isClickedBesideTile(msx, msy, table.getTiles().at(0))) {
+							moveTileToTableBelow(player1, selectedTile, 3, -90.0f, -90, +45);
+						}*/
+						else if (isClickedNextToTile(msx, msy, table.getTiles().at(0))) {
 
-				//		moveTileToTableAbove(player2, selectedTile, 1, 90.0f, -90, 0);
-				//	}
-				//	else if (isClickedBeside2Tile(msx, msy, table.getTiles().at(0))) {
+							moveTileToTableAbove(player2, selectedTile, 3, -90.0f, 45, 0);
+						}
+						/*else if (isClickedNext2ToTile(msx, msy, table.getTiles().at(0))) {
 
-				//		moveTileToTableBelow(player2, selectedTile, 3, 90.0f, -90, +45);
-				//	}
-				//	else if (isClickedNext2ToTile(msx, msy, table.getTiles().at(0))) {
+							moveTileToTableBelow(player1, selectedTile, 2, -270.0f, 45, 45);
+						}*/
 
-				//		moveTileToTableBelow(player2, selectedTile, 2, -270.0f, 45, 45);
-				//	}
-				//	else if (isClickedNextToTile(msx, msy, table.getTiles().at(0))) {
+					}
 
-				//		moveTileToTableAbove(player2, selectedTile, 3, -90.0f, 45, 0);
-				//	}
-				//	else if (last > 1) {
-				//		if (isClickedAboveTile(msx, msy, table.getTiles().at(last)))
-				//		{
-				//			cout << "Index:" << selectedTile << endl;
-				//			moveTileToTableAbove(player2, selectedTile, 2, 0, 0, -90);
-				//		}
-				//		else if (isClickedBelowTile(msx, msy, table.getTiles().at(last))) {
+					///////////////
+						//if (last > 0) {
+							//else 
+					else if (anglebegin != 0 && anglebegin != 180) {
+						if (isClickedAboveTile(msx, msy, table.getTiles().at(0)))
+						{
+							moveTileToTableAbove(player2, selectedTile, 2, 0, 0, -90);
+						}
+						else if (isClickedBelowTile(msx, msy, table.getTiles().at(0))) {
 
-				//			moveTileToTableBelow(player2, selectedTile, 2, 0, 0, 90);
-				//		}
-				//		else if (isClickedBesideTile(msx, msy, table.getTiles().at(last))) {
+							moveTileToTableAbove(player2, selectedTile, 2, 0, 0, +45);
+						}
+						else if (isClickedBesideTile(msx, msy, table.getTiles().at(0))) {
 
-				//			moveTileToTableAbove(player2, selectedTile, 1, 90.0f, -90, 0);
-				//		}
-				//		else if (isClickedBeside2Tile(msx, msy, table.getTiles().at(last))) {
+							moveTileToTableAbove(player2, selectedTile, 1, 90.0f, -90, 0);
+						}
+						else if (isClickedNextToTile(msx, msy, table.getTiles().at(0))) {
 
-				//			moveTileToTableBelow(player2, selectedTile, 3, 90.0f, -90, +45);
-				//		}
-				//		else if (isClickedNext2ToTile(msx, msy, table.getTiles().at(last))) {
+							moveTileToTableAbove(player2, selectedTile, 3, -90.0f, 90, 0);
+						}
+					}
+					//if(last >= 1){
+						//else
+					if (anglelast == 0 || anglelast == 180) {
+						if (isClickedBeside2Tile(msx, msy, table.getTiles().at(last))) {
 
-				//			moveTileToTableBelow(player2, selectedTile, 2, -270.0f, 45, 45);
-				//		}
-				//		else if (isClickedNextToTile(msx, msy, table.getTiles().at(last))) {
+							moveTileToTableBelow(player2, selectedTile, 3, -90.0f, 0, +45);
+						}
+						else if (isClickedNext2ToTile(msx, msy, table.getTiles().at(last))) {
 
-				//			moveTileToTableAbove(player2, selectedTile, 3, -90.0f, 45, 0);
-				//		}
-				//		player1.changeTurnStatus(1);
-				//		player2.changeTurnStatus(0);
-				//	}
-				//}
+							moveTileToTableBelow(player2, selectedTile, 2, -270.0f, 45, 45);
+						}
+						else if (isClickedBelowTile(msx, msy, table.getTiles().at(last))) {
+
+							moveTileToTableBelow(player2, selectedTile, 3,/* 0*/0, 0, 90);
+						}
+					}
+					else if (anglelast != 0 && anglelast != 180) {
+						if (isClickedAboveTile(msx, msy, table.getTiles().at(last)))
+						{
+							moveTileToTableBelow(player2, selectedTile, 2, 0, 0, -90);
+						}
+						else if (isClickedBelowTile(msx, msy, table.getTiles().at(last))) {
+
+							moveTileToTableBelow(player2, selectedTile, 2, 0, 0, +45);
+						}
+						else if (isClickedBesideTile(msx, msy, table.getTiles().at(last))) {
+
+							moveTileToTableBelow(player2, selectedTile, 1, 90.0f, -90, 0);
+						}
+						else if (isClickedNextToTile(msx, msy, table.getTiles().at(last))) {
+
+							moveTileToTableBelow(player2, selectedTile, 3, 90.0f, 90, 0);
+						}
+					}
+					player2.changeTurnStatus(0);
+					player1.changeTurnStatus(1);
+
+				}
 			}
 		}; break;
 		case SDL_MOUSEBUTTONUP: {
@@ -578,20 +600,6 @@ bool Game::isTileClicked(SDL_Rect* r, int xDown, int yDown, int xUp, int yUp) {
 	return false;
 }
 
-//bool Game::isClickedBesideTile(int x, int y, Tile tile) {
-//	// checks if the cursor position is on the left side of the first picture of the tile
-//	//cout << "x:" << x << " y:" << y << " tileX:"<< tile.tileParent.x << " tileY:" << tile.tileParent.y << endl;
-//	if (tile.angle == 0 || tile.angle == 180) {
-//		if ((x + tile.tileParent.w) > tile.tileParent.x && y > tile.tileParent.y && (x + tile.tileParent.w) < (tile.tileParent.x + tile.tileParent.w) && y < (tile.tileParent.y + (tile.tileParent.h / 2)))
-//			return true;
-//		else return false;
-//	}else if (tile.angle == 90 || tile.angle == 270) {
-//		if ((x + tile.tileParent.w) > tile.tileParent.x && y > tile.tileParent.y && (x + tile.tileParent.w) < (tile.tileParent.x + tile.tileParent.w) && y < (tile.tileParent.y + (tile.tileParent.h / 2)))
-//			return true;
-//		else return false;
-//	}
-//}
-
 bool Game::isClickedBesideTile(int x, int y, Tile tile) {
 	// checks if the cursor position is on the left side of the first picture of the tile
 	//cout << "x:" << x << " y:" << y << " tileX:"<< tile.tileParent.x << " tileY:" << tile.tileParent.y << endl;
@@ -600,15 +608,13 @@ bool Game::isClickedBesideTile(int x, int y, Tile tile) {
 			return true;
 		else return false;
 	}
-	else if (tile.angle == 90 || tile.angle == 270) {
-		if ( x  > tile.tileParent.x && y - tileHeight / 2 > tile.tileParent.y && x < (tile.tileParent.x + tileWidth) && y < tile.tileParent.y)
-			return true;
-		else return false;
-	}else if (tile.angle == -90 || tile.angle == -270) {
-		if ( x  < tile.tileParent.x && y + tileHeight / 2 > tile.tileParent.y &&  x > (tile.tileParent.x - tileWidth) && y < tile.tileParent.y)
+	else{ //if (tile.angle == 90 || tile.angle == 270 || tile.angle == -90) {
+		if (x + tileWidth > tile.tileParent.x && y > tile.tileParent.y && x < tile.tileParent.x && y < tile.tileParent.y + tileHeight / 2)
 			return true;
 		else return false;
 	}
+//	else
+		//return false;
 
 }
 
@@ -619,16 +625,19 @@ bool Game::isClickedAboveTile(int x, int y, Tile tile) {
 			return true;
 		else return false;
 	}
-	else if (tile.angle == 90 || tile.angle == 270) {
-		if (x + tileWidth > tile.tileParent.x && y > tile.tileParent.y && x < tile.tileParent.x && y  < (tile.tileParent.y - (tileHeight / 2)))
+	else {// if (tile.angle == 90 || tile.angle == 270 || tile.angle == -90) {
+		if ((x > tile.tileParent.x && y + tileHeight / 2 > tile.tileParent.y && x < tile.tileParent.x + tileWidth && y < tile.tileParent.y) ||
+			(x - tileHeight / 2 > tile.tileParent.x && y < tile.tileParent.y && x < tile.tileParent.x + tileHeight && y > tile.tileParent.y - tileHeight / 2))
 			return true;
 		else return false;
 	}
-	else if (tile.angle == -90 || tile.angle == -270) {
-	if (x - tileWidth < tile.tileParent.x && y > tile.tileParent.y && x > tile.tileParent.x && y  < (tile.tileParent.y + (tileHeight / 2)))
-		return true;
-	else return false;
-	}
+	/*else if (tile.angle == -90 || tile.angle == -270 || tile.angle == 90) {
+		if (x - tileHeight / 2 > tile.tileParent.x && y < tile.tileParent.y && x < tile.tileParent.x + tileHeight && y > tile.tileParent.y - tileHeight / 2)
+			return true;
+		else return false;
+	}*/
+//	else
+		//return false;
 }
 
 bool Game::isClickedNextToTile(int x, int y, Tile tile) {
@@ -638,17 +647,12 @@ bool Game::isClickedNextToTile(int x, int y, Tile tile) {
 			return true;
 		else return false;
 	}
-	else if (tile.angle == 90 || tile.angle == 270) {
-		if (x > tile.tileParent.x && y - tileHeight < tile.tileParent.y && x < (tile.tileParent.x + tileWidth) && y > tile.tileParent.y - tileHeight )
+	else{ //if (tile.angle == -90 || tile.angle == -270 || tile.angle == 90) {
+		if (x < tile.tileParent.x + tileHeight + tileWidth && y > tile.tileParent.y && x > (tile.tileParent.x + tileHeight) && y < tile.tileParent.y + tileHeight / 2)
 			return true;
 		else return false;
 	}
-	else if (tile.angle == -90 || tile.angle == -270) {
-		if (x < tile.tileParent.x && y > tile.tileParent.y + tileHeight / 2 && x > (tile.tileParent.x - tileWidth) && y + tileHeight < tile.tileParent.y )
-			return true;
-		else return false;
-	}
-	
+	//else return false;
 
 }
 
@@ -660,24 +664,31 @@ bool Game::isClickedBeside2Tile(int x, int y, Tile tile) {
 			return true;
 		else return false;
 	}
+	else
+		return false;
 
-	else if (tile.angle == 90 || tile.angle == 270) {
-		if ((x - tileWidth) > tile.tileParent.x && y > tile.tileParent.y && (x - tileWidth) < (tile.tileParent.x + tileWidth) && y < (tile.tileParent.y + (tileHeight / 2)))
-			return true;
-		else return false;
-	}
-	else if (tile.angle == -90 || tile.angle == -270) {
-		if ((x - tileWidth) > tile.tileParent.x && y > tile.tileParent.y && (x - tileWidth) < (tile.tileParent.x + tileWidth) && y < (tile.tileParent.y + (tileHeight / 2)))
-			return true;
-		else return false;
-	}
+	
 }
 
 bool Game::isClickedBelowTile(int x, int y, Tile tile) {
 	// checks if the cursor position is on the botton side of the second picture of the tile
-	if (x > (tile.tileParent.x) && (y - (tileHeight / 2)) > tile.tileParent.y + tileHeight / 2 && x < (tile.tileParent.x + tileWidth) && (y - (tileHeight / 2)) < (tile.tileParent.y + tileHeight))
-		return true;
-	else return false;
+	if (tile.angle == 0 || tile.angle == 180) {
+		if (x > (tile.tileParent.x) && (y - (tileHeight / 2)) > tile.tileParent.y + tileHeight / 2 && x < (tile.tileParent.x + tileWidth) && (y - (tileHeight / 2)) < (tile.tileParent.y + tileHeight))
+			return true;
+		else return false;
+	}
+	else{ //if (tile.angle == 90 || tile.angle == 270 /*|| tile.angle == -90*/) {
+		if ((x > tile.tileParent.x && y - tileHeight < tile.tileParent.y && x < (tile.tileParent.x + tileWidth) && y > tile.tileParent.y + tileHeight / 2)||
+			((x - tileHeight) < tile.tileParent.x && y > tile.tileParent.y + tileHeight / 2 && x > tile.tileParent.x + tileWidth && y - tileHeight < (tile.tileParent.y)))
+			return true;
+		else return false;
+	}
+	/*else if (tile.angle == -90 || tile.angle == -270) {
+		if ((x - tileHeight) < tile.tileParent.x && y > tile.tileParent.y + tileHeight / 2 && x > tile.tileParent.x + tileWidth && y - tileHeight < (tile.tileParent.y))
+			return true;
+		else return false;
+	}
+	else return false;*/
 }
 
 bool Game::isClickedNext2ToTile(int x, int y, Tile tile) {
@@ -687,16 +698,8 @@ bool Game::isClickedNext2ToTile(int x, int y, Tile tile) {
 			return true;
 		else return false;
 	}
-	else if (tile.angle == 90 || tile.angle == 270) {
-		if ((x - tileWidth) > tile.tileParent.x && y > tile.tileParent.y + tileHeight / 2 && x  < (tile.tileParent.x + tileWidth) && y < (tile.tileParent.y + (tileHeight)))
-			return true;
-		else return false;
-	}
-	else if (tile.angle == -90 || tile.angle == -270) {
-		if ((x - tileWidth) > tile.tileParent.x && y > tile.tileParent.y - tileHeight / 2 && x  < tile.tileParent.x + tileHeight && y < (tile.tileParent.y - (tileHeight)))
-			return true;
-		else return false;
-	}
+	else return false;
+
 }
 void Game::reloadGame() {
 	//when reloading the game we need to make tiles for both players and shuffle them

@@ -18,6 +18,10 @@ public:
 	void moveTileToTableBelow(Player& player, int position, int side, float rotationOfTile, int changeX, int changeY);
 	void reloadGame();
 	void render();
+	/*bool isClickedBesideTileWithRot(int x, int y, Tile tile);
+	bool isClickedAboveTileWithRot(int x, int y, Tile tile, int i);
+	bool isClickedNextToTileWithRot(int x, int y, Tile tile);
+	bool isClickedBelowTileWithRot(int x, int y, Tile tile, int i);*/
 	bool isClickedBesideTile(int x, int y, Tile tile);
 	bool isClickedAboveTile(int x, int y, Tile tile);
 	bool isClickedNextToTile(int x, int y, Tile tile);

@@ -56,28 +56,49 @@ void Tile::changePosition(int x, int y, float a) {
 	}
 	else if (angle == 90 ) {
 		tileParent = { position.first, position.second , tileHeight, tileWidth };
-		destPic1 = { tileParent.x + 3, tileParent.y + 3, tileHeight / 2 - 6, tileWidth - 6 };
-		destPic2 = { destPic1.x + destPic1.w + 6, destPic1.y, tileWidth - 6, tileHeight / 2 - 6 };
+		destPic1 = { tileParent.x + 3 , tileParent.y + 3, tileHeight / 2 - 6, tileWidth - 6 };
+		//destPic2 = { tileParent.x + 3 , tileParent.y + 3, tileHeight / 2 - 6, tileWidth - 6 };
+		//destPic1 = { tileParent.x + 3 + tileWidth , tileParent.y + 3, tileHeight / 2 - 6 , tileWidth - 6, };
+		destPic2 = { tileParent.x + 3 + tileWidth , tileParent.y + 3, tileHeight / 2 - 6 , tileWidth - 6, };
 	}
 	else if (angle == -90) {
-		tileParent = { position.first, position.second, tileHeight,  tileWidth };
-		destPic1 = { tileParent.x + 3 , tileParent.y + 3, tileHeight / 2 - 6 , tileWidth - 6 };
+		tileParent = { position.first, position.second, tileHeight,  tileWidth };	
 		destPic2 = { tileParent.x + 3 + tileHeight / 2, tileParent.y + 3, tileHeight / 2 - 6, tileWidth - 6 };
+		destPic1 = { tileParent.x + 3  , tileParent.y + 3, tileHeight / 2 - 6 , tileWidth - 6 };
+		string temp = firstPic.id;
+		firstPic.id = secondPic.id;
+		secondPic.id = temp;
+
 	}
-	else if (angle == 180 || angle == -180) {
+	else if (angle == 180 ) {
 		tileParent = { position.first, position.second ,tileWidth, tileHeight };
-		destPic1 = { tileParent.x + 3 , (tileParent.y + tileHeight / 2) + 3, tileWidth - 6, tileHeight / 2 - 6 };
-		destPic2 = { tileParent.x + 3, tileParent.y + 3, tileWidth - 6, tileHeight / 2 - 6 };
+		destPic2 = { tileParent.x + 3 , (tileParent.y + tileHeight / 2) + 3, tileWidth - 6, tileHeight / 2 - 6 };
+		destPic1 = { tileParent.x + 3, tileParent.y + 3, tileWidth - 6, tileHeight / 2 - 6 };
+		string temp = firstPic.id;
+		firstPic.id = secondPic.id;
+		secondPic.id = temp;
+	}
+	else if (angle == -180) {
+		tileParent = { position.first, position.second ,tileWidth, tileHeight };
+		destPic2 = { tileParent.x + 3 , (tileParent.y + tileHeight / 2) + 3, tileWidth - 6, tileHeight / 2 - 6 };
+		destPic1 = { tileParent.x + 3, tileParent.y + 3, tileWidth - 6, tileHeight / 2 - 6 };
+	/*	string temp = firstPic.id;
+		firstPic.id = secondPic.id;
+		secondPic.id = temp;*/
 	}
 	else if (angle == -270) {
 		tileParent = { position.first, position.second, tileHeight ,tileWidth };
 		destPic1 = { tileParent.x + 3, tileParent.y + 3, tileHeight / 2 - 6 , tileWidth - 6 };
 		destPic2 = { (tileParent.x + tileHeight / 2) + 3, tileParent.y + 3, tileHeight / 2 - 6,  tileWidth - 6 };
+
 	}
-	else if (angle == 270) {
+	else if (angle == 270 ) {
 		tileParent = { position.first, position.second, tileHeight,tileWidth };
-		destPic1 = { tileParent.x + 3 + tileHeight / 2, tileParent.y + 3  , tileHeight / 2 - 6, tileWidth - 6 };
-		destPic2 = { tileParent.x + 3 , tileParent.y + 3,  tileHeight / 2 - 6, tileWidth - 6 };
+		destPic2 = { tileParent.x + 3 + tileWidth, tileParent.y + 3  , tileHeight / 2 - 6, tileWidth - 6 };
+		destPic1 = { tileParent.x + 3 , tileParent.y + 3,  tileHeight / 2 - 6, tileWidth - 6 };
+		string temp = firstPic.id;
+		firstPic.id = secondPic.id;
+		secondPic.id = temp;
 	}
 }
 
